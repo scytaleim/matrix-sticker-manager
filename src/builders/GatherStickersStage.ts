@@ -60,7 +60,7 @@ export class GatherStickersStage implements StickerPackBuilder {
             try {
                 LogService.info("GatherStickersStage", "Requesting media info for " + mxc);
                 const response = await this.client.doRequest("GET", "/_matrix/media/unstable/info/" + origin + "/" + mediaId);
-                if (response['content_type'] !== "image/png" || !response['width'] || !response['height']) {
+                if ((response['content_type'] !== "image/png" && response['content_type'] !== "image/gif") || !response['width'] || !response['height']) {
                     LogService.warn("GatherStickersStage", "Media info for " + mxc + " indicates the file is invalid in " + this.roomId);
                     return this.client.sendNotice(this.roomId, "Please upload a PNG image for your sticker.");
                 }
@@ -74,7 +74,7 @@ export class GatherStickersStage implements StickerPackBuilder {
                 LogService.warn("GatherStickersStage", "Event is missing media info in " + this.roomId);
                 return this.client.sendNotice(this.roomId, "Your client didn't send me enough information for me to validate your sticker. Please try again or use a different client.");
             }
-            if (event['content']['info']['mimetype'] !== "image/png") {
+            if (event['content']['info']['mimetype'] !== "image/png" && event['content']['info']['mimetype'] !== "image/gif") {
                 LogService.warn("GatherStickersStage", "Media info from event indicates the file is not an image in " + this.roomId);
                 return this.client.sendNotice(this.roomId, "Please upload a PNG image for your sticker.");
             }
