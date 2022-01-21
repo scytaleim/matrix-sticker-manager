@@ -26,6 +26,7 @@ export interface StickerpackMetadata {
 export interface StickerMetadata {
     description: string;
     contentUri: string;
+    mimeType: string;
 }
 
 export class StickerStore {
@@ -60,6 +61,7 @@ export class StickerStore {
                 packId: pack.id,
                 description: s.description,
                 contentUri: s.contentUri,
+                mimeType: s.mimeType,
             }
         });
 
@@ -205,6 +207,7 @@ export class StickerStore {
                 id: stickerId,
                 description: stickerEvent.description,
                 contentUri: stickerEvent.contentUri,
+                mimeType: stickerEvent.mimeType,
                 packId: pack.id,
             });
         }
